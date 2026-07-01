@@ -1,0 +1,2652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet" />
+  <title>Savings Dashboard</title>
+  <style>
+    :root {
+      --bg-start: #eff6ff;
+      --bg-end: #dbeafe;
+      --card: #ffffff;
+      --surface: #f8fbff;
+      --surface-alt: #f1f5f9;
+      --panel: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #14b8a6;
+      --text: #0f172a;
+      --muted: #64748b;
+      --danger: #ef4444;
+      --border: #dbeafe;
+      --border-strong: #cbd5e1;
+      --input-bg: #ffffff;
+      --input-text: #0f172a;
+      --button-secondary-bg: #e2e8f0;
+      --button-secondary-color: #0f172a;
+      --history-bg: #f8fafc;
+      --history-border: #e2e8f0;
+      --float-bg: rgba(255,255,255,0.9);
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+      --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.15);
+      --font-family: 'Kanit', 'Noto Sans Thai', 'Segoe UI', sans-serif;
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --header-gradient: linear-gradient(90deg, var(--primary), var(--accent));
+      --body-pattern: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 45%);
+    }
+
+    :root[data-theme="dark"] {
+      --bg-start: #000000;
+      --bg-end: #0f172a;
+      --card: #111827;
+      --surface: #172033;
+      --surface-alt: #1f2937;
+      --panel: #111827;
+      --primary: #60a5fa;
+      --primary-dark: #3b82f6;
+      --accent: #2dd4bf;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --danger: #f87171;
+      --border: #334155;
+      --border-strong: #475569;
+      --input-bg: #0f172a;
+      --input-text: #f8fafc;
+      --button-secondary-bg: #1f2937;
+      --button-secondary-color: #f8fafc;
+      --history-bg: #0f172a;
+      --history-border: #334155;
+      --float-bg: rgba(17, 24, 39, 0.9);
+      --shadow: 0 14px 40px rgba(2, 6, 23, 0.55);
+      --shadow-soft: 0 8px 24px rgba(2, 6, 23, 0.45);
+    }
+
+    :root[data-style="ocean"] {
+      --font-family: 'Kanit', 'Noto Sans Thai', 'Segoe UI', sans-serif;
+      --header-gradient: linear-gradient(135deg, #0f766e, #2563eb);
+      --body-pattern: radial-gradient(circle at top left, rgba(125, 211, 252, 0.35), transparent 45%);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --shadow: 0 18px 45px rgba(14, 116, 144, 0.18);
+      --shadow-soft: 0 12px 30px rgba(14, 116, 144, 0.16);
+    }
+
+    :root[data-style="sunset"] {
+      --font-family: 'Kanit', 'Noto Sans Thai', 'Segoe UI', sans-serif;
+      --header-gradient: linear-gradient(135deg, #fb923c, #f43f5e);
+      --body-pattern: radial-gradient(circle at top left, rgba(251, 191, 36, 0.28), transparent 45%);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 16px 42px rgba(190, 24, 93, 0.16);
+      --shadow-soft: 0 10px 24px rgba(190, 24, 93, 0.14);
+    }
+
+    :root[data-style="midnight"] {
+      --font-family: 'Kanit', 'Noto Sans Thai', 'Segoe UI', sans-serif;
+      --header-gradient: linear-gradient(135deg, #312e81, #7c3aed);
+      --body-pattern: radial-gradient(circle at top left, rgba(129, 140, 248, 0.28), transparent 45%);
+      --radius-xl: 26px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow: 0 20px 50px rgba(17, 24, 39, 0.28);
+      --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.22);
+    }
+
+    :root[data-style="mint"] {
+      --font-family: 'Kanit', 'Noto Sans Thai', 'Segoe UI', sans-serif;
+      --header-gradient: linear-gradient(135deg, #059669, #14b8a6);
+      --body-pattern: radial-gradient(circle at top left, rgba(167, 243, 208, 0.35), transparent 45%);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --shadow: 0 16px 40px rgba(5, 150, 105, 0.16);
+      --shadow-soft: 0 10px 26px rgba(5, 150, 105, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html {
+      background: var(--bg-start);
+      transition: background-color 0.45s ease;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+      transition: background 0.45s ease, color 0.45s ease;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body.bg-classic { --bg-start: #f3f7ff; --bg-end: #e7eefc; --body-pattern: radial-gradient(circle at top left, rgba(255,255,255,0.28), transparent 45%); }
+    body.bg-ocean { --bg-start: #eef8ff; --bg-end: #dcefff; --body-pattern: radial-gradient(circle at top left, rgba(59, 130, 246, 0.16), transparent 45%); }
+    body.bg-sunset { --bg-start: #fff8f2; --bg-end: #fde7e6; --body-pattern: radial-gradient(circle at top left, rgba(251, 191, 36, 0.2), transparent 45%); }
+    body.bg-midnight { --bg-start: #0f172a; --bg-end: #1e293b; --body-pattern: radial-gradient(circle at top left, rgba(129, 140, 248, 0.18), transparent 45%); }
+    body.bg-mint { --bg-start: #f5fef9; --bg-end: #e7f8ef; --body-pattern: radial-gradient(circle at top left, rgba(16, 185, 129, 0.14), transparent 45%); }
+
+    :root[data-theme="dark"] body.bg-classic,
+    :root[data-theme="dark"] body.bg-ocean,
+    :root[data-theme="dark"] body.bg-sunset,
+    :root[data-theme="dark"] body.bg-midnight,
+    :root[data-theme="dark"] body.bg-mint {
+      --bg-start: #000000;
+      --bg-end: #0f172a;
+      --body-pattern: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 45%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--body-pattern);
+      pointer-events: none;
+      opacity: 0.6;
+      transition: opacity 0.45s ease;
+    }
+
+    .app, .header, .auth-card, .summary-card, .toggle-row, .panel, .language-float, .theme-float, .history-item, input, select, .bar {
+      transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.35s ease;
+    }
+
+    .app {
+      width: 100%;
+      min-height: 100vh;
+      height: 100%;
+      margin: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .header {
+      background: var(--header-gradient);
+      color: white;
+      padding: 24px 24px 20px;
+    }
+
+    .header h1 { margin: 0 0 8px; font-size: 1.7rem; }
+    .header p { margin: 0; opacity: 0.95; line-height: 1.5; }
+
+    .body { padding: 22px; display: grid; gap: 18px; width: 100%; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: grid;
+      gap: 8px;
+      min-height: 120px;
+    }
+
+    .summary-card .label { color: var(--muted); font-size: 0.9rem; }
+    .summary-card .value { font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); }
+
+    .auth-screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .auth-card {
+      width: min(100%, 420px);
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .auth-card h2 { margin: 0; font-size: 1.4rem; }
+    .auth-card p { margin: 0; color: var(--muted); }
+
+    .auth-signup-fields {
+      display: grid;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .auth-signup-fields.hidden {
+      display: none !important;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 8px;
+      background: var(--surface-alt);
+      border-radius: 999px;
+      padding: 4px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 12px;
+    }
+
+    .toggle-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .lang-row, .remember-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-row label, .remember-row label {
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .remember-row input {
+      width: auto;
+      margin: 0;
+    }
+
+    .theme-float, .language-float {
+      position: fixed;
+      top: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+      background: var(--float-bg);
+      backdrop-filter: blur(8px);
+      padding: 8px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .theme-float {
+      left: 16px;
+    }
+
+    .language-float {
+      right: 16px;
+    }
+
+    .theme-btn, .language-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .theme-btn.active, .language-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .message {
+      min-height: 20px;
+      font-size: 0.95rem;
+      color: var(--danger);
+    }
+
+    .message.success { color: var(--accent); }
+    .hidden { display: none !important; }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      min-width: 220px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .header-right {
+      display: grid;
+      gap: 14px;
+      align-items: start;
+      justify-items: end;
+    }
+
+    .dashboard-shell {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 18px;
+      min-height: calc(100vh - 24px);
+    }
+
+    .sidebar {
+      background: var(--card);
+      border-radius: calc(var(--radius-xl) + 6px);
+      padding: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(37,99,235,0.18);
+    }
+
+    .sidebar-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .sidebar-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .nav-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid transparent;
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+    }
+
+    .nav-item:hover {
+      transform: translateX(2px);
+      background: var(--surface-alt);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(180deg, rgba(37,99,235,0.15), rgba(56,189,248,0.12));
+      border-color: rgba(37,99,235,0.28);
+    }
+
+    .sidebar-quick {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sidebar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(37,99,235,0.08);
+      color: var(--primary);
+      font-weight: 700;
+      border: 1px solid rgba(37,99,235,0.15);
+    }
+
+    .dashboard-main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .dashboard-main .header {
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .report-panel {
+      display: grid;
+      gap: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .report-header {
+      display: grid;
+      gap: 18px;
+      align-items: start;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .report-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      width: 100%;
+    }
+
+    .report-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: flex-end;
+    }
+
+    .report-filter {
+      display: grid;
+      gap: 8px;
+      min-width: 170px;
+    }
+
+    .report-filter-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .report-filter select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-strong);
+      background: var(--input-bg);
+      color: var(--input-text);
+      font-size: 1rem;
+    }
+
+    .report-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .report-stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .report-stat-value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .report-chart {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .report-chart-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .report-chart-bars {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 10px;
+      align-items: end;
+      min-height: 210px;
+    }
+
+    .report-chart-month {
+      display: grid;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .report-chart-month-bars {
+      display: grid;
+      gap: 6px;
+      align-items: end;
+      min-height: 170px;
+    }
+
+    .report-chart-bar-inner {
+      width: 100%;
+      border-radius: 16px;
+      background: var(--primary);
+      min-height: 12px;
+      transition: height 0.3s ease;
+    }
+
+    .report-chart-bar-expense {
+      background: var(--danger);
+    }
+
+    .report-chart-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .report-table-section {
+      display: grid;
+      gap: 12px;
+    }
+
+    .report-table-wrap {
+      overflow-x: auto;
+    }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 580px;
+    }
+
+    .report-table th,
+    .report-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .report-table th {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .report-table tr:nth-child(even) {
+      background: var(--surface);
+    }
+
+    .report-table td {
+      color: var(--muted);
+    }
+
+    .report-table-section {
+      display: grid;
+      gap: 12px;
+    }
+
+    .report-table-wrap {
+      overflow-x: auto;
+    }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 580px;
+    }
+
+    .report-table th,
+    .report-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .report-table th {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .report-table tr:nth-child(even) {
+      background: var(--surface);
+    }
+
+    .report-table td {
+      color: var(--muted);
+    }
+
+    .balance-card {
+      background: rgba(255,255,255,0.95);
+      color: var(--text);
+      border-radius: 24px;
+      padding: 18px 22px;
+      min-width: 190px;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+      border: 1px solid rgba(203,213,225,0.8);
+    }
+
+    .balance-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .balance-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .user-badge {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .sidebar-action {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .logout-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: white;
+      background: var(--danger);
+      transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.35s ease;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-1px);
+      background: #dc2626;
+    }
+
+    .settings-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .settings-screen {
+      display: grid;
+      padding: 0;
+    }
+
+    .dashboard-main .settings-screen {
+      min-height: auto;
+      display: block;
+      padding: 0;
+    }
+
+    .settings-card {
+      width: 100%;
+      max-width: 760px;
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .settings-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .settings-group {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .settings-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .settings-option-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .settings-option-btn {
+      min-width: 44px;
+      height: 42px;
+      border-radius: 999px;
+      border: 2px solid var(--border-strong);
+      background: var(--input-bg);
+      color: var(--text);
+      font-weight: 700;
+      padding: 0 12px;
+    }
+
+    .settings-option-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .profile-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .profile-option-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 1.2rem;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .profile-option-btn.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .profile-preview {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.18);
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .danger-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      background: var(--danger);
+      color: white;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.35s ease;
+    }
+
+    .danger-btn:hover {
+      transform: translateY(-1px);
+      background: #dc2626;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel h2 { margin: 0; font-size: 1.05rem; }
+
+    form { display: grid; gap: 10px; }
+    label { font-weight: 700; color: var(--text); font-size: 0.95rem; }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-strong);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+      background: var(--input-bg);
+      color: var(--input-text);
+    }
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    .primary-btn { background: var(--primary); color: white; }
+    .secondary-btn { background: var(--button-secondary-bg); color: var(--button-secondary-color); }
+
+    .bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 120px;
+      padding-top: 8px;
+    }
+    .bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .bar {
+      width: 100%;
+      max-width: 34px;
+      border-radius: 999px 999px 4px 4px;
+      background: linear-gradient(180deg, var(--accent), var(--primary));
+      min-height: 8px;
+    }
+    .bar-label { font-size: 0.78rem; color: var(--muted); }
+
+    .history { display: grid; gap: 8px; max-height: 260px; overflow: auto; padding-right: 4px; }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--history-bg);
+      border: 1px solid var(--history-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      gap: 10px;
+    }
+    .history-item .amount {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .history-item.income .amount { color: var(--accent); }
+    .history-item.expense .amount { color: var(--danger); }
+    .history-item.income strong.amount { color: var(--accent); }
+    .history-item.expense strong.amount { color: var(--danger); }
+    .history-item .note { color: var(--muted); font-size: 0.85rem; }
+    .empty { text-align: center; color: var(--muted); padding: 12px 0; font-size: 0.95rem; }
+
+    .history-selection-list {
+      display: grid;
+      gap: 10px;
+      max-height: 280px;
+      overflow: auto;
+      padding: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .history-selection-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .history-selection-item label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .history-selection-item input {
+      width: auto;
+      margin: 0;
+    }
+
+    @media (max-width: 920px) {
+      .dashboard-shell { grid-template-columns: 1fr; }
+      .sidebar { width: 100%; }
+      .header-right { justify-items: start; }
+      .header-actions { justify-content: flex-start; width: 100%; }
+    }
+
+    @media (max-width: 800px) {
+      .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .header { padding: 18px 16px 16px; }
+      .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .settings-screen { padding: 8px; }
+      .settings-card { padding: 16px; }
+      .settings-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .settings-group { padding: 10px; }
+      .settings-option-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .settings-option-btn {
+        width: 100%;
+        min-width: 0;
+      }
+      .body { padding: 16px; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .actions {
+        flex-direction: column;
+      }
+      .actions button {
+        width: 100%;
+      }
+      .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header h1 { font-size: 1.35rem; }
+      .auth-card { padding: 18px; }
+      .summary-card { padding: 12px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="authView" class="auth-screen">
+    <div class="auth-card">
+      <h2 data-i18n="authTitle">Welcome back</h2>
+      <p data-i18n="authSubtitle">Sign in or create an account to manage your savings.</p>
+      <div class="toggle-row">
+        <button class="toggle-btn active" type="button" id="showLoginBtn" data-i18n="login">Login</button>
+        <button class="toggle-btn" type="button" id="showSignupBtn" data-i18n="signUp">Sign Up</button>
+      </div>
+      <form id="authForm">
+        <label for="authUsername" data-i18n="username">Username</label>
+        <input id="authUsername" required />
+
+        <label for="authPassword" data-i18n="password">Password</label>
+        <input id="authPassword" type="password" required />
+
+        <div id="signupFields" class="auth-signup-fields hidden">
+          <label for="signupDisplayNameInput" data-i18n="displayName">Display name</label>
+          <input id="signupDisplayNameInput" type="text" data-i18n-placeholder="displayNamePlaceholder" placeholder="e.g. Alex" />
+
+          <label for="signupBackgroundSelect" data-i18n="background">Background</label>
+          <select id="signupBackgroundSelect">
+            <option value="classic" data-i18n="classicBackground">Classic</option>
+            <option value="ocean" data-i18n="oceanBackground">Ocean</option>
+            <option value="sunset" data-i18n="sunsetBackground">Sunset</option>
+            <option value="midnight" data-i18n="midnightBackground">Midnight</option>
+            <option value="mint" data-i18n="mintBackground">Mint</option>
+          </select>
+        </div>
+
+        <label for="authConfirmPassword" data-i18n="confirmPassword" id="confirmPasswordLabel">Confirm password</label>
+        <input id="authConfirmPassword" type="password" />
+
+        <div class="remember-row" id="rememberRow">
+          <input type="checkbox" id="rememberLogin" />
+          <label for="rememberLogin" data-i18n="rememberLogin">Remember login</label>
+        </div>
+
+        <button class="primary-btn" type="submit" id="authSubmitBtn" data-i18n="login">Login</button>
+      </form>
+      <div id="authMessage" class="message"></div>
+    </div>
+  </div>
+
+  <div id="dashboardView" class="app hidden">
+    <div class="dashboard-shell">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">💰</div>
+          <div>
+            <p class="sidebar-title" data-i18n="dashboardLabel">Dashboard</p>
+            <p class="sidebar-subtitle" data-i18n="sidebarSubtitle">Personal savings overview</p>
+          </div>
+        </div>
+        <div class="nav-list">
+          <button class="nav-item active" type="button" data-section="dashboard" data-i18n="dashboardNav">Dashboard</button>
+          <button class="nav-item" type="button" data-section="reports" data-i18n="reportsNav">Reports</button>
+          <button class="nav-item" type="button" data-section="settings" data-i18n="settingsNav">Settings</button>
+        </div>
+        <div class="sidebar-quick">
+          <span class="sidebar-badge" data-i18n="loggedInAs">Logged in</span>
+          <span class="sidebar-badge" id="profileBadge"><span id="profileAvatar" class="profile-avatar">👤</span><span id="profileName">Guest</span></span>
+        </div>
+        <div class="sidebar-action">
+          <button class="logout-btn" type="button" id="logoutBtn" data-i18n="logout">Logout</button>
+        </div>
+      </aside>
+
+      <div class="dashboard-main">
+        <div class="header">
+          <div class="header-top">
+            <div class="header-left">
+              <div>
+                <h1 data-i18n="dashboardTitle">💰 Savings Dashboard</h1>
+                <p data-i18n="dashboardSubtitle">Enter each deposit and watch your savings grow in real time.</p>
+              </div>
+            </div>
+            <div class="header-right">
+              <div class="balance-card">
+                <div class="balance-label" data-i18n="totalBalance">Total balance</div>
+                <div class="balance-value" id="dashboardBalance">0.00</div>
+              </div>
+              <div class="header-actions">
+                <!-- Logout moved to sidebar -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="settingsContent" class="settings-screen hidden">
+          <div class="settings-card">
+            <div class="settings-header">
+              <h2 class="settings-title" data-i18n="settingsTitle">Settings</h2>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="displayName">Display name</div>
+              <input id="displayNameInput" type="text" data-i18n-placeholder="displayNamePlaceholder" placeholder="e.g. Alex" />
+              <button class="primary-btn" type="button" id="saveDisplayNameBtn" data-i18n="saveDisplayName">Save display name</button>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="profileImage">Profile image</div>
+              <div class="settings-option-row">
+                <button class="primary-btn" type="button" id="uploadProfileImageBtn">Upload from device</button>
+                <input id="profileImageInput" type="file" accept="image/*" class="hidden" />
+              </div>
+              <div class="profile-options" id="profileImageOptions">
+                <button class="profile-option-btn active" type="button" data-avatar="👤">👤</button>
+                <button class="profile-option-btn" type="button" data-avatar="🧑">🧑</button>
+                <button class="profile-option-btn" type="button" data-avatar="🦊">🦊</button>
+                <button class="profile-option-btn" type="button" data-avatar="🐱">🐱</button>
+                <button class="profile-option-btn" type="button" data-avatar="🐼">🐼</button>
+                <button class="profile-option-btn" type="button" data-avatar="🦄">🦄</button>
+              </div>
+              <div class="profile-preview">
+                <span id="profilePreviewAvatar" class="profile-avatar">👤</span>
+                <span id="profilePreviewName">Guest</span>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="style">UI Style</div>
+              <div class="settings-option-row">
+                <button class="settings-option-btn style-btn active" type="button" data-style="classic" aria-label="Classic style">Classic</button>
+                <button class="settings-option-btn style-btn" type="button" data-style="ocean" aria-label="Ocean style">Ocean</button>
+                <button class="settings-option-btn style-btn" type="button" data-style="sunset" aria-label="Sunset style">Sunset</button>
+                <button class="settings-option-btn style-btn" type="button" data-style="midnight" aria-label="Midnight style">Midnight</button>
+                <button class="settings-option-btn style-btn" type="button" data-style="mint" aria-label="Mint style">Mint</button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="theme">Theme</div>
+              <div class="settings-option-row">
+                <button class="settings-option-btn theme-btn" type="button" data-theme="light" aria-label="Light theme">☀</button>
+                <button class="settings-option-btn theme-btn" type="button" data-theme="dark" aria-label="Dark theme">☾</button>
+                <button class="settings-option-btn theme-btn active" type="button" data-theme="system" aria-label="Follow system theme">◐</button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="language">Language</div>
+              <div class="settings-option-row">
+                <button class="settings-option-btn language-btn" type="button" data-lang="th">TH</button>
+                <button class="settings-option-btn language-btn active" type="button" data-lang="en">EN</button>
+                <button class="settings-option-btn language-btn" type="button" data-lang="es">ES</button>
+                <button class="settings-option-btn language-btn" type="button" data-lang="zh">中</button>
+                <button class="settings-option-btn language-btn" type="button" data-lang="ko">한</button>
+                <button class="settings-option-btn language-btn" type="button" data-lang="ja">JA</button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="currency">Currency</div>
+              <div class="settings-option-row">
+                <button class="settings-option-btn currency-btn" type="button" data-currency="THB">THB</button>
+                <button class="settings-option-btn currency-btn active" type="button" data-currency="USD">USD</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="EUR">EUR</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="CNY">CNY</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="KRW">KRW</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="JPY">JPY</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="GBP">GBP</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="AUD">AUD</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="CAD">CAD</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="SGD">SGD</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="HKD">HKD</button>
+                <button class="settings-option-btn currency-btn" type="button" data-currency="INR">INR</button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="settings-label" data-i18n="deleteHistory">Delete history</div>
+              <div id="historySelectionList" class="history-selection-list"></div>
+              <div class="settings-option-row">
+                <button class="settings-option-btn primary-btn" type="button" id="deleteSelectedBtn" data-i18n="deleteSelected">Delete selected</button>
+                <button class="settings-option-btn secondary-btn" type="button" id="clearHistoryBtn" data-i18n="clearAll">Clear all</button>
+              </div>
+            </div>
+            <div class="settings-group delete-account-group">
+              <div class="settings-label" data-i18n="deleteAccount">Delete account</div>
+              <label for="confirmDeletePassword" data-i18n="confirmDeletePassword">Confirm password</label>
+              <input id="confirmDeletePassword" type="password" placeholder="" />
+              <button class="settings-option-btn danger-btn" type="button" id="deleteAccountBtn" data-i18n="deleteAccountButton">Delete account</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="dashboardContent" class="body">
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="label" data-i18n="totalSaved">Total saved</div>
+              <div class="value" id="totalAmount">0.00</div>
+            </div>
+            <div class="summary-card">
+              <div class="label" data-i18n="deposits">Deposits</div>
+              <div class="value" id="itemCount">0</div>
+            </div>
+            <div class="summary-card">
+              <div class="label" data-i18n="averageDeposit">Average deposit</div>
+              <div class="value" id="averageAmount">0.00</div>
+            </div>
+            <div class="summary-card">
+              <div class="label" data-i18n="lastDeposit">Last deposit</div>
+              <div class="value" id="lastAmount">0.00</div>
+            </div>
+          </div>
+
+          <div class="content-grid">
+            <div class="panel">
+              <h2 data-i18n="addEntry">Add a deposit</h2>
+              <form id="saveForm">
+                <label for="amountInput" data-i18n="amount">Amount</label>
+                <input id="amountInput" type="number" step="0.01" data-i18n-placeholder="amountPlaceholder" placeholder="e.g. 150 or -50" required />
+
+                <label for="noteInput" data-i18n="note">Note (optional)</label>
+                <input id="noteInput" type="text" data-i18n-placeholder="notePlaceholder" placeholder="e.g. Freelance work" />
+
+                <div class="actions">
+                  <button class="primary-btn" type="submit" data-i18n="addEntryButton">+ Add deposit</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="panel">
+              <h2 data-i18n="historyTitle">History</h2>
+              <div id="historyList" class="history"></div>
+            </div>
+          </div>
+        </div>
+        <div class="report-panel hidden" id="reportContent">
+          <div class="report-header">
+            <div>
+              <h2 data-i18n="reportsTitle">Yearly reports</h2>
+              <p data-i18n="reportsSubtitle">Monthly income and expense overview</p>
+            </div>
+            <div class="report-controls">
+              <div class="report-filter">
+                <label class="report-filter-label" for="reportModeSelect" data-i18n="viewBy">View by</label>
+                <select id="reportModeSelect">
+                  <option value="daily" data-i18n="dailyView">Daily</option>
+                  <option value="monthly" data-i18n="monthlyView">Monthly</option>
+                  <option value="yearly" data-i18n="yearlyView">Yearly</option>
+                </select>
+              </div>
+              <div class="report-filter report-month-filter hidden">
+                <label class="report-filter-label" for="reportMonthSelect" data-i18n="chooseMonth">Month</label>
+                <select id="reportMonthSelect"></select>
+              </div>
+            </div>
+            <div class="report-summary-grid">
+              <div class="report-stat">
+                <div class="report-stat-label" data-i18n="totalIncome">Income</div>
+                <div class="report-stat-value" id="reportIncomeTotal">0.00</div>
+              </div>
+              <div class="report-stat">
+                <div class="report-stat-label" data-i18n="totalExpenses">Expenses</div>
+                <div class="report-stat-value" id="reportExpenseTotal">0.00</div>
+              </div>
+              <div class="report-stat">
+                <div class="report-stat-label" data-i18n="netTotal">Net total</div>
+                <div class="report-stat-value" id="reportNetTotal">0.00</div>
+              </div>
+            </div>
+          </div>
+          <div class="report-chart" id="reportChart"></div>
+          <div class="report-table-section">
+            <h3 data-i18n="monthlySummary">Monthly summary</h3>
+            <div class="report-table-wrap">
+              <table class="report-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="month">Month</th>
+                    <th data-i18n="income">Income</th>
+                    <th data-i18n="expenses">Expenses</th>
+                    <th data-i18n="net">Net</th>
+                  </tr>
+                </thead>
+                <tbody id="reportTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const USERS_KEY = 'savings-users-v1';
+    const CURRENT_USER_KEY = 'savings-current-user-v1';
+    const SESSION_CURRENT_USER_KEY = 'savings-session-user-v1';
+    const LANGUAGE_KEY = 'savings-language-v1';
+    const THEME_KEY = 'savings-theme-v1';
+    const STYLE_KEY = 'savings-style-v1';
+    const CURRENCY_KEY = 'savings-currency-v1';
+    const form = document.getElementById('saveForm');
+    const amountInput = document.getElementById('amountInput');
+    const noteInput = document.getElementById('noteInput');
+    const totalAmountEl = document.getElementById('totalAmount');
+    const itemCountEl = document.getElementById('itemCount');
+    const averageAmountEl = document.getElementById('averageAmount');
+    const lastAmountEl = document.getElementById('lastAmount');
+    const authView = document.getElementById('authView');
+    const dashboardView = document.getElementById('dashboardView');
+    const authForm = document.getElementById('authForm');
+    const authUsername = document.getElementById('authUsername');
+    const authPassword = document.getElementById('authPassword');
+    const authConfirmPassword = document.getElementById('authConfirmPassword');
+    const authMessage = document.getElementById('authMessage');
+    const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const rememberRow = document.getElementById('rememberRow');
+    const signupFields = document.getElementById('signupFields');
+    const signupDisplayNameInput = document.getElementById('signupDisplayNameInput');
+    const signupBackgroundSelect = document.getElementById('signupBackgroundSelect');
+    const confirmPasswordLabel = document.getElementById('confirmPasswordLabel');
+    const confirmPasswordInput = document.getElementById('authConfirmPassword');
+    const showLoginBtn = document.getElementById('showLoginBtn');
+    const showSignupBtn = document.getElementById('showSignupBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const rememberLogin = document.getElementById('rememberLogin');
+    const settingsContent = document.getElementById('settingsContent');
+    const displayNameInput = document.getElementById('displayNameInput');
+    const saveDisplayNameBtn = document.getElementById('saveDisplayNameBtn');
+    const profileBadge = document.getElementById('profileBadge');
+    const profileAvatar = document.getElementById('profileAvatar');
+    const profileName = document.getElementById('profileName');
+    const profilePreviewAvatar = document.getElementById('profilePreviewAvatar');
+    const profilePreviewName = document.getElementById('profilePreviewName');
+    const profileImageButtons = document.querySelectorAll('.profile-option-btn');
+    const profileImageInput = document.getElementById('profileImageInput');
+    const uploadProfileImageBtn = document.getElementById('uploadProfileImageBtn');
+    const historySelectionList = document.getElementById('historySelectionList');
+    const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+    const confirmDeletePassword = document.getElementById('confirmDeletePassword');
+    const reportContent = document.getElementById('reportContent');
+    const dashboardContent = document.getElementById('dashboardContent');
+    const reportModeSelect = document.getElementById('reportModeSelect');
+    const reportMonthSelect = document.getElementById('reportMonthSelect');
+    const reportIncomeTotal = document.getElementById('reportIncomeTotal');
+    const reportExpenseTotal = document.getElementById('reportExpenseTotal');
+    const reportNetTotal = document.getElementById('reportNetTotal');
+    const reportTable = document.getElementById('reportTable');
+    const reportChart = document.getElementById('reportChart');
+    const historyListEl = document.getElementById('historyList');
+    const navItems = document.querySelectorAll('.nav-item');
+    const languageButtons = document.querySelectorAll('.language-btn');
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    const styleButtons = document.querySelectorAll('.style-btn');
+    const currencyButtons = document.querySelectorAll('.currency-btn');
+
+    let authMode = 'login';
+    let currentLanguage = loadLanguage();
+    let currentTheme = loadTheme();
+    let currentStyle = loadStyle();
+    let currentCurrency = loadCurrency();
+    let currentUser = loadCurrentUser();
+    let users = loadUsers();
+    let state = currentUser ? loadState(currentUser) : { total: 0, items: [] };
+    let reportView = 'monthly';
+    let reportMonth = new Date().getMonth();
+
+    function normalizeUser(user) {
+      if (typeof user === 'string') {
+        return { username: user, password: '', displayName: user, background: 'classic', profileImage: '👤' };
+      }
+      return {
+        username: user?.username || '',
+        password: user?.password || '',
+        displayName: user?.displayName || user?.username || '',
+        background: user?.background || 'classic',
+        profileImage: user?.profileImage || '👤'
+      };
+    }
+
+    function loadUsers() {
+      try {
+        const raw = localStorage.getItem(USERS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed.map(normalizeUser).filter(user => user.username) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveUsers() {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function getAccountByUsername(username) {
+      return users.find((user) => user.username === username) || null;
+    }
+
+    function getDisplayName(username) {
+      const account = getAccountByUsername(username);
+      return account?.displayName || username || 'Guest';
+    }
+
+    function setDisplayName(name) {
+      const account = getAccountByUsername(currentUser);
+      if (!account) return;
+      account.displayName = name.trim() || account.username;
+      saveUsers();
+    }
+
+    function loadCurrentUser() {
+      const rememberedUser = localStorage.getItem(CURRENT_USER_KEY);
+      if (rememberedUser) return rememberedUser;
+      return sessionStorage.getItem(SESSION_CURRENT_USER_KEY) || '';
+    }
+
+    function saveCurrentUser(username, remember) {
+      if (username) {
+        if (remember) {
+          localStorage.setItem(CURRENT_USER_KEY, username);
+          sessionStorage.removeItem(SESSION_CURRENT_USER_KEY);
+        } else {
+          localStorage.removeItem(CURRENT_USER_KEY);
+          sessionStorage.setItem(SESSION_CURRENT_USER_KEY, username);
+        }
+      } else {
+        localStorage.removeItem(CURRENT_USER_KEY);
+        sessionStorage.removeItem(SESSION_CURRENT_USER_KEY);
+      }
+    }
+
+    function loadLanguage() {
+      return localStorage.getItem(LANGUAGE_KEY) || 'en';
+    }
+
+    function saveLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem(LANGUAGE_KEY, lang);
+    }
+
+    function loadTheme() {
+      return localStorage.getItem(THEME_KEY) || 'system';
+    }
+
+    function saveTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem(THEME_KEY, theme);
+    }
+
+    function loadStyle() {
+      return localStorage.getItem(STYLE_KEY) || 'classic';
+    }
+
+    function saveStyle(style) {
+      currentStyle = style;
+      localStorage.setItem(STYLE_KEY, style);
+    }
+
+    function loadCurrency() {
+      return localStorage.getItem(CURRENCY_KEY) || 'THB';
+    }
+
+    function saveCurrency(currency) {
+      currentCurrency = currency;
+      localStorage.setItem(CURRENCY_KEY, currency);
+    }
+
+    function getSystemTheme() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function applyTheme() {
+      const resolvedTheme = currentTheme === 'system' ? getSystemTheme() : currentTheme;
+      document.documentElement.classList.add('theme-changing');
+      document.body.classList.add('theme-changing');
+      document.documentElement.setAttribute('data-theme', resolvedTheme);
+      document.documentElement.setAttribute('data-theme-mode', currentTheme);
+      themeButtons.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute('data-theme') === currentTheme);
+      });
+      clearTimeout(window.themeTransitionTimer);
+      window.themeTransitionTimer = setTimeout(() => {
+        document.documentElement.classList.remove('theme-changing');
+        document.body.classList.remove('theme-changing');
+      }, 450);
+    }
+
+    function applyStyle() {
+      document.documentElement.setAttribute('data-style', currentStyle);
+      styleButtons.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute('data-style') === currentStyle);
+      });
+    }
+
+    const translations = {
+      th: {
+        pageTitle: 'แผงควบคุมรายรับรายจ่าย',
+        authTitle: 'ยินดีต้อนรับกลับ',
+        authSubtitle: 'เข้าสู่ระบบหรือสร้างบัญชีเพื่อจัดการเงินออมของคุณ',
+        login: 'เข้าสู่ระบบ',
+        signUp: 'สมัครสมาชิก',
+        username: 'ชื่อผู้ใช้',
+        password: 'รหัสผ่าน',
+        rememberLogin: 'จำการเข้าสู่ระบบ',
+        settingsTitle: 'ตั้งค่า',
+        backToHome: 'ย้อนกลับ',
+        theme: 'ธีม',
+        language: 'ภาษา',
+        loggedInAs: 'เข้าสู่ระบบในชื่อ',
+        displayName: 'ชื่อที่แสดง',
+        totalBalance: 'ยอดรวม',
+        displayNamePlaceholder: 'เช่น Alex',
+        saveDisplayName: 'บันทึก',
+        language: 'ภาษา',
+        dashboardLabel: 'แดชบอร์ด',
+        sidebarSubtitle: 'ภาพรวมเงินรายรับรายจ่าย',
+        dashboardTitle: '💰 แผงควบคุมรายรับรายจ่าย',
+        dashboardSubtitle: 'ใส่จำนวนเงินและดูยอดสะสมของคุณแบบเรียลไทม์',
+        logout: 'ออกจากระบบ',
+        totalSaved: 'ยอดเงินสะสม',
+        deposits: 'รายการ',
+        averageDeposit: 'ค่าเฉลี่ยต่อรายการ',
+        lastDeposit: 'รายการล่าสุด',
+        addEntry: 'เพิ่มรายการ',
+        amount: 'จำนวนเงิน',
+        amountPlaceholder: 'ใส่จำนวน เช่น 150 หรือ -50',
+        note: 'หมายเหตุ (ไม่บังคับ)',
+        notePlaceholder: '...',
+        addEntryButton: '+ เพิ่มรายการ',
+        clearAll: 'ล้างทั้งหมด',
+        historyTitle: 'ประวัติ',
+        recentActivity: 'กิจกรรมล่าสุด',
+        reportsTitle: 'รายงานประจำปี',
+        reportsSubtitle: 'ภาพรวมรายรับและรายจ่ายรายเดือน',
+        totalIncome: 'รายรับ',
+        totalExpenses: 'รายจ่าย',
+        netTotal: 'ยอดสุทธิ',
+        monthlySummary: 'สรุปยอด',
+        month: 'เดือน',
+        income: 'รายรับ',
+        expenses: 'รายจ่าย',
+        net: 'สุทธิ',
+        dashboardNav: 'แดชบอร์ด',
+        reportsNav: 'รายงาน',
+        activityNav: 'กิจกรรม',
+        settingsNav: 'ตั้งค่า',
+        noTransactions: 'ยังไม่มีรายการ',
+        noNote: 'ไม่มีหมายเหตุ',
+        enterBoth: 'กรุณากรอกชื่อผู้ใช้และรหัสผ่าน',
+        confirmPassword: 'ยืนยันรหัสผ่าน',
+        passwordMismatch: 'รหัสผ่านไม่ตรงกัน',
+        usernameExists: 'ชื่อนี้มีผู้ใช้แล้ว กรุณาเลือกชื่ออื่น',
+        accountCreated: 'สร้างบัญชีสำเร็จ',
+        confirmLogout: 'ยืนยันออกจากระบบ?',
+        wrongCredentials: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+      },
+      en: {
+        pageTitle: 'Savings Dashboard',
+        authTitle: 'Welcome back',
+        authSubtitle: 'Sign in or create an account to manage your savings.',
+        login: 'Login',
+        signUp: 'Sign Up',
+        username: 'Username',
+        password: 'Password',
+        rememberLogin: 'Remember login',
+        settingsTitle: 'Settings',
+        backToHome: 'Go Back',
+        theme: 'Theme',
+        language: 'Language',
+        loggedInAs: 'Logged in as',
+        displayName: 'Display name',
+        totalBalance: 'Total balance',
+        displayNamePlaceholder: 'e.g. Alex',
+        saveDisplayName: 'Save display name',
+        dashboardLabel: 'Dashboard',
+        sidebarSubtitle: 'Personal savings overview',
+        dashboardTitle: '💰 Savings Dashboard',
+        dashboardSubtitle: 'Enter each deposit and watch your savings grow in real time.',
+        logout: 'Logout',
+        totalSaved: 'Total saved',
+        deposits: 'Deposits',
+        averageDeposit: 'Average deposit',
+        lastDeposit: 'Last deposit',
+        addEntry: 'Add a deposit',
+        amount: 'Amount',
+        amountPlaceholder: 'e.g. 150 or -50',
+        note: 'Note (optional)',
+        notePlaceholder: '',
+        addEntryButton: '+ Add deposit',
+        clearAll: 'Clear all',
+        historyTitle: 'History',
+        reportsTitle: 'Reports',
+        reportsSubtitle: 'Income and expense overview',
+        totalIncome: 'Income',
+        totalExpenses: 'Expenses',
+        netTotal: 'Net total',
+        monthlySummary: 'Summary',
+        month: 'Month',
+        income: 'Income',
+        expenses: 'Expenses',
+        net: 'Net',
+        dashboardNav: 'Dashboard',
+        reportsNav: 'Reports',
+        activityNav: 'Activity',
+        settingsNav: 'Settings',
+        deleteHistory: 'Delete history',
+        deleteSelected: 'Delete selected',
+        guest: 'Guest',
+        enterValidAmount: 'Please enter a valid amount.',
+        enterPassword: 'Please enter your password.',
+        confirmDeleteAccount: 'Confirm delete account?',
+        selectAtLeastOne: 'Please select at least one item',
+        confirmDeleteSelected: 'Confirm delete selected items?',
+        confirmClearAll: 'Confirm clear all history?',
+        confirmLogout: 'Confirm logout?',
+        viewBy: 'View by',
+        dailyView: 'Daily',
+        monthlyView: 'Monthly',
+        yearlyView: 'Yearly',
+        chooseMonth: 'Choose month',
+        noTransactions: 'No transactions yet.',
+        noNote: 'No note',
+        enterBoth: 'Please enter both username and password.',
+        confirmPassword: 'Confirm password',
+        passwordMismatch: 'Passwords do not match.',
+        deleteAccount: 'Delete account',
+        deleteAccountButton: 'Delete account',
+        confirmDeleteAccount: 'Confirm delete account?',
+        enterPassword: 'Please enter your password.',
+        usernameExists: 'Username already exists. Please choose another one.',
+        accountCreated: 'Account created successfully.',
+        wrongCredentials: 'Wrong username or password.'
+      },
+      es: {
+        pageTitle: 'Panel de Ahorros',
+        authTitle: 'Bienvenido de nuevo',
+        authSubtitle: 'Inicia sesión o crea una cuenta para administrar tus ahorros.',
+        login: 'Iniciar sesión',
+        signUp: 'Registrarse',
+        username: 'Nombre de usuario',
+        password: 'Contraseña',
+        rememberLogin: 'Recordar inicio de sesión',
+        settingsTitle: 'Ajustes',
+        backToHome: 'Volver al inicio',
+        theme: 'Tema',
+        language: 'Idioma',
+        loggedInAs: 'Conectado como',
+        displayName: 'Nombre para mostrar',
+        displayNamePlaceholder: 'p. ej. Alex',
+        saveDisplayName: 'Guardar nombre',
+        language: 'Idioma',
+        dashboardTitle: '💰 Panel de Ahorros',
+        dashboardSubtitle: 'Introduce cada depósito y observa cómo crecen tus ahorros en tiempo real.',
+        logout: 'Cerrar sesión',
+        dashboardLabel: 'Panel',
+        sidebarSubtitle: 'Resumen de ahorro personal',
+        totalSaved: 'Total ahorrado',
+        deposits: 'Depósitos',
+        averageDeposit: 'Promedio por depósito',
+        lastDeposit: 'Último depósito',
+        addEntry: 'Agregar un depósito',
+        amount: 'Cantidad',
+        amountPlaceholder: 'p. ej. 150 o -50',
+        note: 'Nota (opcional)',
+        notePlaceholder: 'p. ej. Trabajo freelance',
+        addEntryButton: '+ Agregar depósito',
+        clearAll: 'Limpiar todo',
+        historyTitle: 'Historial',
+        recentActivity: 'Actividad reciente',
+        noTransactions: 'Aún no hay transacciones.',
+        noNote: 'Sin nota',
+        enterBoth: 'Por favor ingresa usuario y contraseña.',
+        enterPassword: 'Por favor ingresa tu contraseña.',
+        confirmPassword: 'Confirmar contraseña',
+        passwordMismatch: 'Las contraseñas no coinciden.',
+        deleteAccount: 'Eliminar cuenta',
+        deleteAccountButton: 'Eliminar cuenta',
+        guest: 'Invitado',
+        enterValidAmount: 'Por favor introduce una cantidad válida.',
+        enterPassword: 'Por favor ingresa tu contraseña.',
+        confirmDeleteAccount: '¿Confirmar eliminar cuenta?',
+        usernameExists: 'El nombre de usuario ya existe. Elige otro.',
+        accountCreated: 'Cuenta creada correctamente.',
+        wrongCredentials: 'Usuario o contraseña incorrectos.'
+      },
+      zh: {
+        pageTitle: '储蓄仪表板',
+        authTitle: '欢迎回来',
+        authSubtitle: '登录或创建账户来管理您的储蓄。',
+        login: '登录',
+        signUp: '注册',
+        username: '用户名',
+        password: '密码',
+        rememberLogin: '记住登录',
+        settingsTitle: '设置',
+        backToHome: '返回首页',
+        theme: '主题',
+        language: '语言',
+        loggedInAs: '当前登录为',
+        displayName: '显示名称',
+        displayNamePlaceholder: '例如 Alex',
+        saveDisplayName: '保存显示名称',
+        dashboardLabel: '仪表板',
+        sidebarSubtitle: '个人储蓄概览',
+        dashboardTitle: '💰 储蓄仪表板',
+        dashboardSubtitle: '输入每笔存款，实时查看储蓄增长。',
+        logout: '退出登录',
+        totalBalance: '总余额',
+        totalSaved: '总储蓄',
+        deposits: '存款数',
+        averageDeposit: '平均存款',
+        lastDeposit: '最新存款',
+        addEntry: '添加存款',
+        amount: '金额',
+        amountPlaceholder: '例如 150 或 -50',
+        note: '备注（可选）',
+        notePlaceholder: '例如 自由职业',
+        addEntryButton: '+ 添加存款',
+        clearAll: '全部清除',
+        historyTitle: '历史记录',
+        reportsTitle: '报告',
+        reportsSubtitle: '收入和支出概览',
+        totalIncome: '收入',
+        totalExpenses: '支出',
+        netTotal: '净额',
+        enterPassword: '请输入您的密码。',
+        deleteAccount: '删除账户',
+        deleteAccountButton: '删除账户',
+        guest: '访客',
+        enterValidAmount: '请输入有效金额。',
+        enterPassword: '请输入您的密码。',
+        confirmDeleteAccount: '确认删除账户？',
+        monthlySummary: '总结',
+        month: '月份',
+        income: '收入',
+        expenses: '支出',
+        net: '净额',
+        dashboardNav: '仪表板',
+        reportsNav: '报告',
+        activityNav: '活动',
+        settingsNav: '设置',
+        deleteHistory: '删除历史',
+        deleteSelected: '删除所选',
+        selectAtLeastOne: '请选择至少一项',
+        confirmDeleteSelected: '确认删除所选项目？',
+        confirmClearAll: '确认清除所有历史记录？',
+        confirmLogout: '确认退出登录？',
+        viewBy: '查看方式',
+        dailyView: '按日',
+        monthlyView: '按月',
+        yearlyView: '按年',
+        chooseMonth: '选择月份',
+        noTransactions: '还没有记录。',
+        noNote: '无备注',
+        enterBoth: '请输入用户名和密码。',
+        confirmPassword: '确认密码',
+        passwordMismatch: '密码不匹配。',
+        usernameExists: '用户名已存在，请换一个。',
+        accountCreated: '账户创建成功。',
+        wrongCredentials: '用户名或密码错误。'
+      },
+      ko: {
+        pageTitle: '저축 대시보드',
+        authTitle: '다시 오신 것을 환영합니다',
+        authSubtitle: '로그인하거나 계정을 만들어 저축을 관리하세요.',
+        login: '로그인',
+        signUp: '회원가입',
+        username: '사용자 이름',
+        password: '비밀번호',
+        rememberLogin: '로그인 정보 저장',
+        settingsTitle: '설정',
+        backToHome: '홈으로 돌아가기',
+        theme: '테마',
+        language: '언어',
+        loggedInAs: '로그인 사용자',
+        displayName: '표시 이름',
+        displayNamePlaceholder: '예: Alex',
+        saveDisplayName: '표시 이름 저장',
+        dashboardLabel: '대시보드',
+        sidebarSubtitle: '개인 저축 개요',
+        dashboardTitle: '💰 저축 대시보드',
+        dashboardSubtitle: '각 입금 금액을 입력하고 실시간으로 저축을 확인하세요.',
+        logout: '로그아웃',
+        totalBalance: '총 잔액',
+        totalSaved: '총 저축액',
+        deposits: '입금 횟수',
+        averageDeposit: '평균 입금액',
+        lastDeposit: '최근 입금',
+        addEntry: '입금 추가',
+        amount: '금액',
+        amountPlaceholder: '예: 150 또는 -50',
+        note: '메모 (선택)',
+        notePlaceholder: '예: 프리랜서 작업',
+        addEntryButton: '+ 입금 추가',
+        clearAll: '모두 지우기',
+        historyTitle: '기록',
+        reportsTitle: '보고서',
+        reportsSubtitle: '수입 및 지출 개요',
+        totalIncome: '수입',
+        totalExpenses: '지출',
+        netTotal: '순이익',
+        enterPassword: '비밀번호를 입력해주세요.',
+        deleteAccount: '계정 삭제',
+        deleteAccountButton: '계정 삭제',
+        guest: '손님',
+        enterValidAmount: '올바른 금액을 입력하세요.',
+        enterPassword: '비밀번호를 입력해주세요.',
+        confirmDeleteAccount: '계정 삭제를 확인하시겠습니까?',
+        monthlySummary: '요약',
+        month: '월',
+        income: '수입',
+        expenses: '지출',
+        net: '순이익',
+        dashboardNav: '대시보드',
+        reportsNav: '보고서',
+        activityNav: '활동',
+        settingsNav: '설정',
+        deleteHistory: '기록 삭제',
+        deleteSelected: '선택 삭제',
+        selectAtLeastOne: '적어도 하나를 선택하세요',
+        confirmDeleteSelected: '선택한 항목을 삭제하시겠습니까?',
+        confirmClearAll: '모든 기록을 지우시겠습니까?',
+        confirmLogout: '로그아웃을 확인하시겠습니까?',
+        viewBy: '보기 기준',
+        dailyView: '일별',
+        monthlyView: '월별',
+        yearlyView: '연별',
+        chooseMonth: '월 선택',
+        noTransactions: '아직 내역이 없습니다.',
+        noNote: '메모 없음',
+        enterBoth: '사용자 이름과 비밀번호를 입력하세요.',
+        confirmPassword: '비밀번호 확인',
+        passwordMismatch: '비밀번호가 일치하지 않습니다.',
+        usernameExists: '이미 사용 중인 사용자 이름입니다. 다른 이름을 선택하세요.',
+        accountCreated: '계정이 생성되었습니다.',
+        wrongCredentials: '사용자 이름 또는 비밀번호가 올바르지 않습니다.'
+      },
+      ja: {
+        pageTitle: '貯蓄ダッシュボード',
+        authTitle: 'おかえりなさい',
+        authSubtitle: 'ログインまたはアカウントを作成して貯蓄を管理しましょう。',
+        login: 'ログイン',
+        signUp: '新規登録',
+        username: 'ユーザー名',
+        password: 'パスワード',
+        rememberLogin: 'ログイン状態を保存',
+        settingsTitle: '設定',
+        backToHome: '戻る',
+        theme: 'テーマ',
+        language: '言語',
+        loggedInAs: 'ログイン中',
+        displayName: '表示名',
+        totalBalance: '残高',
+        displayNamePlaceholder: '例: Alex',
+        saveDisplayName: '表示名を保存',
+        dashboardLabel: 'ダッシュボード',
+        sidebarSubtitle: '個人貯蓄の概要',
+        dashboardTitle: '💰 貯蓄ダッシュボード',
+        dashboardSubtitle: '入金を入力して、貯蓄の増加をリアルタイムで確認できます。',
+        logout: 'ログアウト',
+        totalSaved: '合計貯蓄',
+        deposits: '件数',
+        averageDeposit: '平均入金額',
+        lastDeposit: '最新の入金',
+        addEntry: '入金を追加',
+        amount: '金額',
+        amountPlaceholder: '例: 150 または -50',
+        note: 'メモ（任意）',
+        notePlaceholder: '例: フリーランス作業',
+        addEntryButton: '+ 入金を追加',
+        clearAll: '全て削除',
+        historyTitle: '履歴',
+        reportsTitle: 'レポート',
+        reportsSubtitle: '収入と支出の概要',
+        totalIncome: '収入',
+        totalExpenses: '支出',
+        netTotal: '純額',
+        monthlySummary: '概要',
+        month: '月',
+        income: '収入',
+        expenses: '支出',
+        net: '純額',
+        dashboardNav: 'ダッシュボード',
+        reportsNav: 'レポート',
+        settingsNav: '設定',
+        deleteHistory: '履歴を削除',
+        deleteSelected: '選択項目を削除',
+        selectAtLeastOne: '少なくとも1つ選択してください',
+        confirmDeleteSelected: '選択した項目を削除しますか？',
+        confirmClearAll: '全履歴を削除しますか？',
+        confirmLogout: 'ログアウトしますか？',
+        viewBy: '表示方法',
+        dailyView: '日別',
+        monthlyView: '月別',
+        yearlyView: '年別',
+        chooseMonth: '月を選択',
+        noTransactions: 'まだ取引がありません。',
+        noNote: 'メモなし',
+        enterBoth: 'ユーザー名とパスワードを入力してください。',
+        confirmPassword: 'パスワード確認',
+        passwordMismatch: 'パスワードが一致しません。',
+        usernameExists: 'このユーザー名はすでに使用されています。別の名前を選択してください。',
+        accountCreated: 'アカウントが作成されました。',
+        wrongCredentials: 'ユーザー名またはパスワードが正しくありません。'
+      }
+    };
+
+    function getText(key) {
+      return translations[currentLanguage][key] || key;
+    }
+
+    function applyTranslations() {
+      const t = translations[currentLanguage];
+      document.documentElement.lang = currentLanguage;
+      document.title = t.pageTitle;
+      const showConfirm = authMode === 'signup';
+      rememberRow.style.display = authMode === 'login' ? 'flex' : 'none';
+      confirmPasswordLabel.style.display = showConfirm ? 'block' : 'none';
+      confirmPasswordInput.style.display = showConfirm ? 'block' : 'none';
+      confirmPasswordInput.required = showConfirm;
+      if (!showConfirm) {
+        confirmPasswordInput.value = '';
+      }
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+          el.textContent = t[key];
+        }
+      });
+      if (signupFields) {
+        signupFields.classList.toggle('hidden', authMode !== 'signup');
+      }
+      document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) {
+          el.placeholder = t[key];
+        }
+      });
+      if (displayNameInput) {
+        displayNameInput.placeholder = t.displayNamePlaceholder || 'Display name';
+      }
+      document.querySelectorAll('#reportModeSelect option, #reportMonthSelect option').forEach((option) => {
+        const key = option.getAttribute('data-i18n');
+        if (key && t[key]) {
+          option.textContent = t[key];
+        }
+      });
+      populateMonthSelect();
+      updateReportControls();
+      languageButtons.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute('data-lang') === currentLanguage);
+      });
+      if (authMode === 'login') {
+        authSubmitBtn.textContent = getText('login');
+      } else {
+        authSubmitBtn.textContent = getText('signUp');
+      }
+      showLoginBtn.textContent = getText('login');
+      showSignupBtn.textContent = getText('signUp');
+    }
+
+    function getUserStorageKey(username) {
+      return `piggybank-data-${username}`;
+    }
+
+    function loadState(username) {
+      try {
+        const raw = localStorage.getItem(getUserStorageKey(username));
+        if (!raw) return { total: 0, items: [] };
+        const parsed = JSON.parse(raw);
+        return {
+          total: Number(parsed.total) || 0,
+          items: Array.isArray(parsed.items) ? parsed.items : []
+        };
+      } catch {
+        return { total: 0, items: [] };
+      }
+    }
+
+    function saveState(username, data) {
+      localStorage.setItem(getUserStorageKey(username), JSON.stringify(data));
+    }
+
+    function formatMoney(value) {
+      const currency = currentCurrency || 'THB';
+      const exchangeRates = {
+        THB: 1,
+        USD: 0.0294,
+        EUR: 0.0271,
+        CNY: 0.214,
+        KRW: 39.7,
+        JPY: 4.45,
+        GBP: 0.0232,
+        AUD: 0.0442,
+        CAD: 0.0409,
+        SGD: 0.0399,
+        HKD: 0.229,
+        INR: 2.46
+      };
+      const localeMap = {
+        THB: 'th-TH',
+        USD: 'en-US',
+        EUR: 'de-DE',
+        CNY: 'zh-CN',
+        KRW: 'ko-KR',
+        JPY: 'ja-JP',
+        GBP: 'en-GB',
+        AUD: 'en-AU',
+        CAD: 'en-CA',
+        SGD: 'en-SG',
+        HKD: 'zh-HK',
+        INR: 'en-IN'
+      };
+      const convertedValue = Number(value) * (exchangeRates[currency] || 1);
+      const formatter = new Intl.NumberFormat(localeMap[currency] || 'en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      const result = formatter.format(convertedValue);
+      if (currency === 'THB') {
+        return result.replace(/^฿\s?/, '') + ' ฿';
+      }
+      return result;
+    }
+
+    function showMessage(text, isError = false) {
+      authMessage.textContent = text;
+      authMessage.className = `message${isError ? '' : ' success'}`;
+    }
+
+    function showAuth() {
+      authView.classList.remove('hidden');
+      dashboardView.classList.add('hidden');
+      settingsContent.classList.add('hidden');
+      document.querySelector('.sidebar')?.classList.add('hidden');
+      authForm.reset();
+      authConfirmPassword.value = '';
+      rememberLogin.checked = Boolean(localStorage.getItem(CURRENT_USER_KEY));
+      rememberRow.style.display = authMode === 'login' ? 'flex' : 'none';
+      signupFields.classList.toggle('hidden', authMode !== 'signup');
+      confirmPasswordLabel.style.display = authMode === 'signup' ? 'block' : 'none';
+      confirmPasswordInput.style.display = authMode === 'signup' ? 'block' : 'none';
+      confirmPasswordInput.required = authMode === 'signup';
+      showMessage('');
+      applyUserBackground();
+    }
+
+    function showDashboard() {
+      authView.classList.add('hidden');
+      dashboardView.classList.remove('hidden');
+      document.querySelector('.sidebar')?.classList.remove('hidden');
+      updateNavSection('dashboard');
+      applyUserBackground();
+      renderProfile();
+      render();
+    }
+
+    function showSettings() {
+      authView.classList.add('hidden');
+      dashboardView.classList.remove('hidden');
+      document.querySelector('.sidebar')?.classList.remove('hidden');
+      updateNavSection('settings');
+      applyUserBackground();
+      if (currentUser) {
+        const account = getAccountByUsername(currentUser);
+        displayNameInput.value = account?.displayName || currentUser;
+      }
+      renderProfile();
+      renderHistorySelection();
+    }
+
+    function applyUserBackground() {
+      const preset = currentUser ? (getAccountByUsername(currentUser)?.background || 'classic') : 'classic';
+      document.body.classList.remove('bg-classic', 'bg-ocean', 'bg-sunset', 'bg-midnight', 'bg-mint');
+      document.body.classList.add(`bg-${preset}`);
+    }
+
+    function renderAvatarElement(element, value) {
+      if (!element) return;
+      element.innerHTML = '';
+      if (typeof value === 'string' && value.startsWith('data:image')) {
+        const img = document.createElement('img');
+        img.src = value;
+        img.alt = 'Profile';
+        element.appendChild(img);
+      } else {
+        element.textContent = value || '👤';
+      }
+    }
+
+    function renderProfile() {
+      if (!currentUser) {
+        renderAvatarElement(profileAvatar, '👤');
+        if (profileName) profileName.textContent = getText('guest');
+        renderAvatarElement(profilePreviewAvatar, '👤');
+        if (profilePreviewName) profilePreviewName.textContent = getText('guest');
+        if (displayNameInput) displayNameInput.value = '';
+        return;
+      }
+
+      const account = getAccountByUsername(currentUser);
+      const displayName = account?.displayName || currentUser;
+      const avatar = account?.profileImage || '👤';
+      renderAvatarElement(profileAvatar, avatar);
+      if (profileName) profileName.textContent = displayName;
+      renderAvatarElement(profilePreviewAvatar, avatar);
+      if (profilePreviewName) profilePreviewName.textContent = displayName;
+      profileImageButtons.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute('data-avatar') === avatar);
+      });
+      if (!settingsContent.classList.contains('hidden')) {
+        displayNameInput.value = displayName;
+      }
+      if (signupDisplayNameInput) {
+        signupDisplayNameInput.value = displayName;
+      }
+    }
+
+    function renderHistorySelection() {
+      historySelectionList.innerHTML = state.items.length
+        ? state.items.map((item, index) => `
+            <div class="history-selection-item">
+              <label>
+                <input type="checkbox" data-index="${index}" />
+                <div>
+                  <div><strong>${item.type === 'expense' ? '-' : '+'}${formatMoney(item.amount)}</strong> • ${item.note || getText('noNote')}</div>
+                  <div class="report-chart-label">${new Date(item.timestamp).toLocaleString(currentLanguage === 'th' ? 'th-TH' : currentLanguage === 'es' ? 'es-ES' : currentLanguage === 'zh' ? 'zh-CN' : currentLanguage === 'ko' ? 'ko-KR' : currentLanguage === 'ja' ? 'ja-JP' : 'en-US')}</div>
+                </div>
+              </label>
+            </div>
+          `).join('')
+        : `<div class="empty">${getText('noTransactions')}</div>`;
+    }
+
+    function deleteSelectedHistory() {
+      const selected = Array.from(historySelectionList.querySelectorAll('input[type="checkbox"]:checked'))
+        .map((checkbox) => Number(checkbox.getAttribute('data-index')));
+      if (!selected.length) {
+        alert(getText('selectAtLeastOne'));
+        return;
+      }
+      const confirmed = confirm(getText('confirmDeleteSelected'));
+      if (!confirmed) return;
+      state.items = state.items.filter((_, index) => !selected.includes(index));
+      state.total = state.items.reduce((sum, item) => item.type === 'expense' ? sum - item.amount : sum + item.amount, 0);
+      saveState(currentUser, state);
+      render();
+      renderHistorySelection();
+    }
+
+    function clearHistory() {
+      const confirmed = confirm(getText('confirmClearAll'));
+      if (!confirmed) return;
+      state = { total: 0, items: [] };
+      saveState(currentUser, state);
+      render();
+      renderHistorySelection();
+    }
+
+    function renderHistoryList() {
+      if (!historyListEl) return;
+      historyListEl.innerHTML = state.items.length
+        ? state.items.map((item) => `
+            <div class="history-item ${item.type}">
+              <div>
+                <div class="note"><strong class="amount">${item.type === 'expense' ? '-' : '+'}${formatMoney(item.amount)}</strong> • ${item.note || getText('noNote')}</div>
+                <div class="report-chart-label">${new Date(item.timestamp).toLocaleString(currentLanguage === 'th' ? 'th-TH' : currentLanguage === 'es' ? 'es-ES' : currentLanguage === 'zh' ? 'zh-CN' : currentLanguage === 'ko' ? 'ko-KR' : 'en-US')}</div>
+              </div>
+            </div>
+          `).join('')
+        : `<div class="empty">${getText('noTransactions')}</div>`;
+    }
+
+    function deleteAccount() {
+      if (!currentUser) return;
+      const password = confirmDeletePassword.value.trim();
+      if (!password) {
+        alert(getText('enterPassword'));
+        return;
+      }
+      const account = getAccountByUsername(currentUser);
+      if (!account || account.password !== password) {
+        alert(getText('wrongCredentials'));
+        return;
+      }
+      const confirmed = confirm(getText('confirmDeleteAccount'));
+      if (!confirmed) return;
+      users = users.filter((user) => user.username !== currentUser);
+      saveUsers();
+      localStorage.removeItem(getUserStorageKey(currentUser));
+      saveCurrentUser('', false);
+      currentUser = '';
+      state = { total: 0, items: [] };
+      confirmDeletePassword.value = '';
+      showAuth();
+    }
+
+    function updateNavSection(section) {
+      navItems.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute('data-section') === section);
+      });
+      if (section === 'dashboard') {
+        dashboardContent.classList.remove('hidden');
+        reportContent.classList.add('hidden');
+        settingsContent.classList.add('hidden');
+      } else if (section === 'reports') {
+        dashboardContent.classList.add('hidden');
+        reportContent.classList.remove('hidden');
+        settingsContent.classList.add('hidden');
+        renderReports();
+      } else if (section === 'settings') {
+        dashboardContent.classList.add('hidden');
+        reportContent.classList.add('hidden');
+        settingsContent.classList.remove('hidden');
+      } else {
+        dashboardContent.classList.remove('hidden');
+        reportContent.classList.add('hidden');
+        settingsContent.classList.add('hidden');
+      }
+    }
+
+    function getMonthlyReportData() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const months = Array.from({ length: 12 }, (_, index) => ({
+        month: index,
+        label: new Intl.DateTimeFormat(currentLanguage, { month: 'short' }).format(new Date(year, index, 1)),
+        income: 0,
+        expenses: 0
+      }));
+
+      state.items.forEach((item) => {
+        const date = new Date(item.timestamp);
+        if (date.getFullYear() !== year) return;
+        const monthData = months[date.getMonth()];
+        if (item.type === 'expense') {
+          monthData.expenses += item.amount;
+        } else {
+          monthData.income += item.amount;
+        }
+      });
+
+      months.forEach((month) => {
+        month.net = month.income - month.expenses;
+      });
+      return months;
+    }
+
+    function getDailyReportData(month, year) {
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const days = Array.from({ length: daysInMonth }, (_, index) => ({
+        day: index + 1,
+        label: String(index + 1),
+        income: 0,
+        expenses: 0
+      }));
+
+      state.items.forEach((item) => {
+        const date = new Date(item.timestamp);
+        if (date.getFullYear() !== year || date.getMonth() !== month) return;
+        const dayData = days[date.getDate() - 1];
+        if (item.type === 'expense') {
+          dayData.expenses += item.amount;
+        } else {
+          dayData.income += item.amount;
+        }
+      });
+
+      days.forEach((day) => {
+        day.net = day.income - day.expenses;
+      });
+      return days;
+    }
+
+    function getYearlyReportData() {
+      const years = {};
+      state.items.forEach((item) => {
+        const year = new Date(item.timestamp).getFullYear();
+        if (!years[year]) {
+          years[year] = { year, label: String(year), income: 0, expenses: 0 };
+        }
+        if (item.type === 'expense') {
+          years[year].expenses += item.amount;
+        } else {
+          years[year].income += item.amount;
+        }
+      });
+      const result = Object.values(years).sort((a, b) => a.year - b.year);
+      if (!result.length) {
+        const currentYear = new Date().getFullYear();
+        return [{ year: currentYear, label: String(currentYear), income: 0, expenses: 0, net: 0 }];
+      }
+      result.forEach((year) => {
+        year.net = year.income - year.expenses;
+      });
+      return result;
+    }
+
+    function populateMonthSelect() {
+      const monthNames = Array.from({ length: 12 }, (_, index) =>
+        new Intl.DateTimeFormat(currentLanguage, { month: 'long' }).format(new Date(2000, index, 1))
+      );
+      reportMonthSelect.innerHTML = monthNames.map((name, index) =>
+        `<option value="${index}">${name}</option>`
+      ).join('');
+      reportMonthSelect.value = reportMonth;
+    }
+
+    function updateReportControls() {
+      const dailyMode = reportModeSelect.value === 'daily';
+      document.querySelector('.report-month-filter').classList.toggle('hidden', !dailyMode);
+      reportView = reportModeSelect.value;
+      reportMonth = Number(reportMonthSelect.value);
+      renderReports();
+    }
+
+    function renderReports() {
+      const year = new Date().getFullYear();
+      let reportData;
+      if (reportView === 'daily') {
+        reportData = getDailyReportData(reportMonth, year);
+      } else if (reportView === 'yearly') {
+        reportData = getYearlyReportData();
+      } else {
+        reportData = getMonthlyReportData();
+      }
+
+      const totalIncome = reportData.reduce((sum, item) => sum + item.income, 0);
+      const totalExpenses = reportData.reduce((sum, item) => sum + item.expenses, 0);
+      const netTotal = totalIncome - totalExpenses;
+
+      reportIncomeTotal.textContent = formatMoney(totalIncome);
+      reportExpenseTotal.textContent = formatMoney(totalExpenses);
+      reportNetTotal.textContent = formatMoney(netTotal);
+
+      const maxValue = Math.max(
+        ...reportData.flatMap((item) => [item.income, item.expenses]),
+        1
+      );
+
+      reportChart.innerHTML = `
+        <div class="report-chart-bars">
+          ${reportData.map((item) => `
+            <div class="report-chart-month">
+              <div class="report-chart-month-bars">
+                <div class="report-chart-bar-inner" style="height: ${Math.round((item.income / maxValue) * 100)}%; background: var(--primary);"></div>
+                <div class="report-chart-bar-inner report-chart-bar-expense" style="height: ${Math.round((item.expenses / maxValue) * 100)}%;"></div>
+              </div>
+              <div class="report-chart-label">${item.label}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      reportTable.innerHTML = reportData.map((item) => `
+        <tr>
+          <td>${item.label}</td>
+          <td>${formatMoney(item.income)}</td>
+          <td>${formatMoney(item.expenses)}</td>
+          <td>${formatMoney(item.net)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function render() {
+      totalAmountEl.textContent = formatMoney(state.total);
+      document.getElementById('dashboardBalance').textContent = formatMoney(state.total);
+      itemCountEl.textContent = state.items.length;
+      const average = state.items.length ? state.total / state.items.length : 0;
+      averageAmountEl.textContent = formatMoney(average);
+      const lastItem = state.items[0];
+      lastAmountEl.textContent = lastItem ? formatMoney(lastItem.amount) : formatMoney(0);
+      renderHistoryList();
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!currentUser) return;
+
+      const amount = Number(amountInput.value);
+      if (Number.isNaN(amount)) {
+        alert(getText('enterValidAmount'));
+        return;
+      }
+
+      const type = amount < 0 ? 'expense' : 'income';
+      const signedAmount = Math.abs(amount);
+      if (type === 'expense') {
+        state.total -= signedAmount;
+      } else {
+        state.total += signedAmount;
+      }
+
+      state.items.unshift({
+        amount: signedAmount,
+        type,
+        note: noteInput.value.trim(),
+        timestamp: new Date().toISOString()
+      });
+      saveState(currentUser, state);
+      render();
+      form.reset();
+      amountInput.focus();
+    });
+
+    showLoginBtn.addEventListener('click', () => {
+      authMode = 'login';
+      applyTranslations();
+      showLoginBtn.classList.add('active');
+      showSignupBtn.classList.remove('active');
+      showMessage('');
+    });
+
+    showSignupBtn.addEventListener('click', () => {
+      authMode = 'signup';
+      applyTranslations();
+      showSignupBtn.classList.add('active');
+      showLoginBtn.classList.remove('active');
+      showMessage('');
+    });
+
+    authForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const username = authUsername.value.trim();
+      const password = authPassword.value.trim();
+
+      if (!username || !password) {
+        showMessage(getText('enterBoth'), true);
+        return;
+      }
+
+      if (authMode === 'signup') {
+        if (!authConfirmPassword.value.trim()) {
+          showMessage(getText('enterBoth'), true);
+          return;
+        }
+
+        if (password !== authConfirmPassword.value.trim()) {
+          showMessage(getText('passwordMismatch'), true);
+          return;
+        }
+
+        if (users.some(user => user.username === username)) {
+          showMessage(getText('usernameExists'), true);
+          return;
+        }
+
+        const displayName = signupDisplayNameInput.value.trim() || username;
+        const background = signupBackgroundSelect.value || 'classic';
+        users.push({ username, password, displayName, background, profileImage: '👤' });
+        saveUsers();
+        currentUser = username;
+        saveCurrentUser(currentUser, rememberLogin.checked);
+        state = { total: 0, items: [] };
+        saveState(currentUser, state);
+        applyUserBackground();
+        showDashboard();
+        showMessage(getText('accountCreated'), false);
+        return;
+      }
+
+      const account = users.find(user => user.username === username && user.password === password);
+      if (!account) {
+        showMessage(getText('wrongCredentials'), true);
+        return;
+      }
+
+      currentUser = username;
+      saveCurrentUser(currentUser, rememberLogin.checked);
+      state = loadState(currentUser);
+      showDashboard();
+    });
+
+    navItems.forEach((button) => {
+      button.addEventListener('click', () => {
+        const section = button.getAttribute('data-section');
+        if (section === 'settings') {
+          showSettings();
+        } else {
+          updateNavSection(section);
+        }
+      });
+    });
+
+    saveDisplayNameBtn.addEventListener('click', () => {
+      if (!currentUser) return;
+      setDisplayName(displayNameInput.value);
+      renderProfile();
+    });
+
+    profileImageButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (!currentUser) return;
+        const account = getAccountByUsername(currentUser);
+        if (!account) return;
+        account.profileImage = button.getAttribute('data-avatar') || '👤';
+        saveUsers();
+        renderProfile();
+      });
+    });
+
+    uploadProfileImageBtn?.addEventListener('click', () => profileImageInput?.click());
+    profileImageInput?.addEventListener('change', (event) => {
+      const file = event.target.files?.[0];
+      if (!file || !currentUser) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result;
+        if (typeof result === 'string') {
+          const account = getAccountByUsername(currentUser);
+          if (account) {
+            account.profileImage = result;
+            saveUsers();
+            renderProfile();
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    });
+
+    reportModeSelect.addEventListener('change', () => {
+      reportView = reportModeSelect.value;
+      updateReportControls();
+    });
+
+    reportMonthSelect.addEventListener('change', () => {
+      reportMonth = Number(reportMonthSelect.value);
+      renderReports();
+    });
+
+    deleteSelectedBtn.addEventListener('click', deleteSelectedHistory);
+    clearHistoryBtn.addEventListener('click', clearHistory);
+    deleteAccountBtn.addEventListener('click', deleteAccount);
+
+    logoutBtn.addEventListener('click', () => {
+      const confirmed = confirm(getText('confirmLogout'));
+      if (!confirmed) return;
+      currentUser = '';
+      saveCurrentUser('', false);
+      showAuth();
+    });
+
+    languageButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        saveLanguage(button.getAttribute('data-lang'));
+        applyTranslations();
+        renderProfile();
+        render();
+      });
+    });
+
+    currencyButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        saveCurrency(button.getAttribute('data-currency'));
+        currencyButtons.forEach((item) => {
+          item.classList.toggle('active', item.getAttribute('data-currency') === currentCurrency);
+        });
+        render();
+      });
+    });
+
+    themeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        saveTheme(button.getAttribute('data-theme'));
+        applyTheme();
+      });
+    });
+
+    styleButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        saveStyle(button.getAttribute('data-style'));
+        applyStyle();
+      });
+    });
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemThemeChange = () => {
+      if (currentTheme === 'system') {
+        applyTheme();
+      }
+    };
+    if (prefersDark.addEventListener) {
+      prefersDark.addEventListener('change', handleSystemThemeChange);
+    } else {
+      prefersDark.addListener(handleSystemThemeChange);
+    }
+
+    applyTheme();
+    applyStyle();
+    applyTranslations();
+    renderProfile();
+
+    if (currentUser && users.some(user => user.username === currentUser)) {
+      state = loadState(currentUser);
+      showDashboard();
+    } else {
+      showAuth();
+    }
+  </script>
+</body>
+</html>
